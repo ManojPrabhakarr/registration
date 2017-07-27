@@ -24,33 +24,96 @@
   </head>
   <body>
     <script type="text/ng-template" id="pages/form.html">
-      <div ng-controller = "studentController">
          
-         <form name = "studentForm" novalidate>
+         <form name = "interviewForm" novalidate ng-submit="saveRegDetails()">
             <table border = "0">
                <tr>
-                  <td>Enter first name:</td>
-                  <td><input name = "firstname" type = "text" ng-model = "firstName" required>
-                     <span style = "color:red" ng-show = "studentForm.firstname.$dirty && studentForm.firstname.$invalid">
-                        <span ng-show = "studentForm.firstname.$error.required">First Name is required.</span>
+                  <td>Interview purpose</td>
+                  <td>
+                  <select ng-model="purposeDropdown" ng-options="x for x in purpose" required>
+                    <option value=''>-Select-</option>
+                  </select>
+                     <span style = "color:red" ng-show = "interviewForm.purposeDropdown.$dirty && interviewForm.purposeDropdown.$invalid">
+                        <span ng-show = "interviewForm.purposeDropdown.$error.required">Interview purpose is required.</span>
                      </span>
                   </td>
                </tr>
                
                <tr>
-                  <td>Enter last name: </td>
+                  <td>City </td>
+                  <td>
+                  <select ng-model="cityDropdown" ng-options="y for y in city" required>
+                    <option value=''>-Select-</option>
+                  </select>
+                  
+                     <span style = "color:red" ng-show = "interviewForm.cityDropdown.$dirty && interviewForm.cityDropdown.$invalid">
+                        <span ng-show = "interviewForm.cityDropdown.$error.required">City is required.</span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td>ElseWhere </td>
+                  <td><input name = "elsewhere" ng-show="cityDropdown=='Elswhere'" ng-model = "elsewhere" required>
+                     <span style = "color:red" ng-show = "interviewForm.elsewhere.$dirty && interviewForm.elsewhere.$invalid">
+                        <span ng-show = "interviewForm.elsewhere.$error.required">Last Name is required.</span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td>Address </td>
+                  <td><textarea name = "address" ng-model = "address" required></textarea>
+                     <span style = "color:red" ng-show = "interviewForm.address.$dirty && interviewForm.address.$invalid">
+                        <span ng-show = "interviewForm.address.$error.required">Last Name is required.</span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td>Interviewer </td>
+                  <td><input name = "interviewer"  type = "text" ng-model = "interviewer" required>
+                     <span style = "color:red" ng-show = "interviewForm.interviewer.$dirty && interviewForm.interviewer.$invalid">
+                        <span ng-show = "interviewForm.interviewer.$error.required">Last Name is required.</span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td>Interviewee </td>
                   <td><input name = "lastname"  type = "text" ng-model = "lastName" required>
-                     <span style = "color:red" ng-show = "studentForm.lastname.$dirty && studentForm.lastname.$invalid">
-                        <span ng-show = "studentForm.lastname.$error.required">Last Name is required.</span>
+                     <span style = "color:red" ng-show = "interviewForm.lastname.$dirty && interviewForm.lastname.$invalid">
+                        <span ng-show = "interviewForm.lastname.$error.required">Last Name is required.</span>
                      </span>
                   </td>
                </tr>
                
                <tr>
-                  <td>Email: </td><td><input name = "email" type = "email" ng-model = "email" length = "100" required>
-                     <span style = "color:red" ng-show = "studentForm.email.$dirty && studentForm.email.$invalid">
-                        <span ng-show = "studentForm.email.$error.required">Email is required.</span>
-                        <span ng-show = "studentForm.email.$error.email">Invalid email address.</span>
+                  <td>Interviewee email </td><td><input name = "email" type = "email" ng-model = "email" length = "100" required>
+                     <span style = "color:red" ng-show = "interviewForm.email.$dirty && interviewForm.email.$invalid">
+                        <span ng-show = "interviewForm.email.$error.required">Email is required.</span>
+                        <span ng-show = "interviewForm.email.$error.email">Invalid email address.</span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td>Interviewee phone number </td>
+                  <td><input name = "lastname"  type = "text" ng-model = "lastName" required>
+                     <span style = "color:red" ng-show = "interviewForm.lastname.$dirty && interviewForm.lastname.$invalid">
+                        <span ng-show = "interviewForm.lastname.$error.required">Last Name is required.</span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td>Date </td>
+                  <td><input name = "lastname"  type = "text" ng-model = "lastName" required>
+                     <span style = "color:red" ng-show = "interviewForm.lastname.$dirty && interviewForm.lastname.$invalid">
+                        <span ng-show = "interviewForm.lastname.$error.required">Last Name is required.</span>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <td>Unique interview ID </td>
+                  <td><input name = "uniqueId"  ng-readonly="true" ng-model = "uniqueId" required>
+                  <button ng-click="generateID()">Generate ID</button>
+                     <span style = "color:red" ng-show = "interviewForm.uniqueId.$dirty && interviewForm.uniqueId.$invalid">
+                        <span ng-show = "interviewForm.uniqueId.$error.required">Last Name is required.</span>
                      </span>
                   </td>
                </tr>
@@ -60,33 +123,30 @@
                      <button ng-click = "reset()">Reset</button>
                   </td>
                   <td>
-                     <button ng-disabled = "studentForm.firstname.$dirty &&
-                        studentForm.firstname.$invalid || studentForm.lastname.$dirty &&
-                        studentForm.lastname.$invalid || studentForm.email.$dirty &&
-                        studentForm.email.$invalid" ng-click="submit()">Submit</button>
+                     <button ng-disabled = "interviewForm.firstname.$dirty &&
+                        interviewForm.firstname.$invalid || interviewForm.lastname.$dirty &&
+                        interviewForm.lastname.$invalid || interviewForm.email.$dirty &&
+                        interviewForm.email.$invalid" ng-click="submit()">Submit</button>
                   </td>
                </tr>
           
             </table>
          </form>
-      </div>
       
-      <script>
-         var mainApp = angular.module("myApp", []);
-         
-         mainApp.controller('studentController', function($scope) {
-            $scope.reset = function(){
-               $scope.firstName = "Mahesh";
-               $scope.lastName = "Parashar";
-               $scope.email = "MaheshParashar@tutorialspoint.com";
-            }
-            
-            $scope.reset();
-         });
-      </script>
+
     </script>
     <script type="text/ng-template" id="pages/details.html">
+    <table border = "0">
+      <tr>
+        <th>Name</th>
+        <th>Marks</th>
+      </tr>
 
+      <tr ng-repeat = "subject in student.subjects">
+        <td>{{ subject.name }}</td>
+        <td>{{ subject.marks }}</td>
+      </tr>
+    </table>
 
     </script>
 

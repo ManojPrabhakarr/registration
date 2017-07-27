@@ -17,17 +17,53 @@ app.config(function($routeProvider) {
 });
 
 app.controller('FormController', function($scope) {
-  $scope.message = 'Hello from FormController';
+  $scope.reset = function(){
+   $scope.firstName = "Mahesh";
+   $scope.lastName = "Parashar";
+   $scope.email = "MaheshParashar@tutorialspoint.com";
+   $scope.city = ["London", "Brighton","Belfast", "Cardiff", "Newcastle", "Elswhere"];
+   $scope.purpose = ["Visa", "Permanent residence"];
+   $scope.uniqueId = 0;
+   $scope.generateID = function() {
+      $scope.uniqueId++;
+    };
+
+    $scope.saved = localStorage.getItem('allinfo');
+    $scope.allinfo = (localStorage.getItem('allinfo')!==null) ? JSON.parse($scope.saved) : [ {text: 'Learn AngularJS', done: false}, {text: 'Build an Angular app', done: false} ];
+    localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
+
+    $scope.addTodo = function() {
+      $scope.allinfo.push({
+        text: $scope.todoText,
+        done: false
+      });
+      $scope.todoText = ''; //clear the input after adding
+      localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
+    };
+
+    $scope.remaining = function() {
+      var count = 0;
+      angular.forEach($scope.allinfo, function(todo){
+        count+= todo.done ? 0 : 1;
+      });
+      return count;
+    };
+
+    $scope.archive = function() {
+      var olddetails = $scope.allinfo;
+      $scope.allinfo = [];
+      angular.forEach(olddetails, function(todo){
+        if (!todo.done)
+          $scope.allinfo.push(todo);
+      });
+      localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
+    };
+  }
+  
+  $scope.reset();
 });
-
-/*app.controller('DetailsController', function($scope) {
-  $scope.message = 'Hello from DetailsController';
-});*/
-
-
-//var mainApp = angular.module("myApp", []);
-         
- app.controller('DetailsController', function($scope) {
+  
+app.controller('DetailsController', function($scope) {
     $scope.student = {
        firstName: "Mahesh",
        lastName: "Parashar",
