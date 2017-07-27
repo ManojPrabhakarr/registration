@@ -2,11 +2,14 @@
 
 <h3>{{message}}</h3>
 
-<table ng-table="vm.tableParams" class="table" show-filter="true">
-    <tr ng-repeat="user in $data">
-        <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">
-            {{user.name}}</td>
-        <td title="'Age'" filter="{ age: 'number'}" sortable="'age'">
-            {{user.age}}</td>
-    </tr>
+<table border = "0">
+	<tr>
+		<th>Name</th>.
+		<th>Marks</th>
+	</tr>
+
+	<tr ng-repeat = "subject in student.subjects">
+		<td>{{ subject.name }}</td>
+		<td>{{ subject.marks }}</td>
+	</tr>
 </table>
