@@ -5,26 +5,121 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
     <link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700" rel="stylesheet">
     <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
     <style>
+      body {
+        background: #f7f7f7;
+        padding: 0;
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        color: #616161;
+      }
+
+      sidebar {
+        float:left;
+        width: 20%;
+        height: 100%;
+        position: absolute;
+        background: #454e7b;
+        box-sizing: border-box;;
+      }
+      button {
+        border: 0px;
+        padding: 10px 15px;
+        color: #fefefe;
+      }
+      .reset {
+        background: #f0ad4e;
+      }
+      .submit {
+        background: #204d74;
+        width: 110px;
+      }
+      .generate {
+        background: #5bc0de;
+        width: 110px;
+      }
+      .separator {
+        border-top: 1px solid #c3d1d6;
+        margin: 15px 0;
+
+      }
+      nav ul {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+      }
+      nav ul li {
+        padding: 20px 15px;
+        border-bottom: 1px solid #aaa;
+      }
+      nav ul li a {
+        font-size: 16px;
+        color: #fefefe;
+        font-weight: 200;
+        text-decoration: none; 
+      }
+      nav ul li:hover {
+        background: #2b2e3e;
+      }
+      nav ul li.active {
+        background: #2b2e3e;
+      }
+      .logo {
+        text-align: center;
+        background: #0e0e38;
+        font-size: 28px;
+        padding: 15px;
+        color: #fff;
+        box-sizing: border-box;
+      }
+      section {
+        width: 80%;
+        margin-left: 20%;
+        box-sizing: border-box;
+      }
          table, th , td {
-            border: 1px solid grey;
+            border: 0px solid grey;
             border-collapse: collapse;
             padding: 5px;
+            margin: 0 auto;
          }
-         
-         table tr:nth-child(odd) {
-            background-color: #f2f2f2;
+         .interviewHeading {
+          font-size: 24px;
+          text-align: center;
+          background: #f1f1f1;
+          padding: 17px 0 18px 0;
+          border-bottom: 1px solid #454e7b;
+          margin-bottom: 15px;
+          font-weight: 300;
          }
-         
-         table tr:nth-child(even) {
-            background-color: #ffffff;
+         form {
+          margin: 0;
+          padding: 0;
+         }
+         form input.unique {
+          width: 125px;
+          box-sizing: initial;
+         }
+         .pull-right {
+          float: right;
+         }
+         form select, form input, form textarea {
+          width:100%;
+          min-width: 150px;
+          padding: 10px 15px;
+          min-width: 250px;
+          border: 1px solid #cfd1de;
+          box-sizing: border-box;
          }
       </style>
   </head>
   <body>
     <script type="text/ng-template" id="pages/form.html">
-         
+         <div class="wrapper">
+          <div class="interviewHeading">Official interview details</div>
          <form name = "interviewForm" novalidate ng-submit="saveRegDetails()">
             <table border = "0">
                <tr>
@@ -52,10 +147,10 @@
                   </td>
                </tr>
                <tr>
-                  <td>ElseWhere </td>
+                  <td ng-show="cityDropdown=='Elswhere'">Other Location </td>
                   <td><input name = "elsewhere" ng-show="cityDropdown=='Elswhere'" ng-model = "elsewhere" required>
                      <span style = "color:red" ng-show = "interviewForm.elsewhere.$dirty && interviewForm.elsewhere.$invalid">
-                        <span ng-show = "interviewForm.elsewhere.$error.required">Last Name is required.</span>
+                        <span ng-show = "interviewForm.elsewhere.$error.required">Other Location is required.</span>
                      </span>
                   </td>
                </tr>
@@ -63,7 +158,7 @@
                   <td>Address </td>
                   <td><textarea name = "address" ng-model = "address" required></textarea>
                      <span style = "color:red" ng-show = "interviewForm.address.$dirty && interviewForm.address.$invalid">
-                        <span ng-show = "interviewForm.address.$error.required">Last Name is required.</span>
+                        <span ng-show = "interviewForm.address.$error.required">Address is required.</span>
                      </span>
                   </td>
                </tr>
@@ -71,15 +166,15 @@
                   <td>Interviewer </td>
                   <td><input name = "interviewer"  type = "text" ng-model = "interviewer" required>
                      <span style = "color:red" ng-show = "interviewForm.interviewer.$dirty && interviewForm.interviewer.$invalid">
-                        <span ng-show = "interviewForm.interviewer.$error.required">Last Name is required.</span>
+                        <span ng-show = "interviewForm.interviewer.$error.required">Interviewer is required.</span>
                      </span>
                   </td>
                </tr>
                <tr>
                   <td>Interviewee </td>
-                  <td><input name = "lastname"  type = "text" ng-model = "lastName" required>
-                     <span style = "color:red" ng-show = "interviewForm.lastname.$dirty && interviewForm.lastname.$invalid">
-                        <span ng-show = "interviewForm.lastname.$error.required">Last Name is required.</span>
+                  <td><input name = "interviewee"  type = "text" ng-model = "interviewee" required>
+                     <span style = "color:red" ng-show = "interviewForm.interviewee.$dirty && interviewForm.interviewee.$invalid">
+                        <span ng-show = "interviewForm.interviewee.$error.required">Interviewee is required.</span>
                      </span>
                   </td>
                </tr>
@@ -94,39 +189,48 @@
                </tr>
                <tr>
                   <td>Interviewee phone number </td>
-                  <td><input name = "lastname"  type = "text" ng-model = "lastName" required>
-                     <span style = "color:red" ng-show = "interviewForm.lastname.$dirty && interviewForm.lastname.$invalid">
-                        <span ng-show = "interviewForm.lastname.$error.required">Last Name is required.</span>
+                  <td><input type = "number" ng-model = "phoneNumber" ng-minlength="5" ng-maxlength="5"  name = "phoneNumber"    maxlength="10" max="10" required>
+                     <span style = "color:red" ng-show = "interviewForm.phoneNumber.$dirty && interviewForm.phoneNumber.$invalid">
+                        <span ng-show = "interviewForm.phoneNumber.$error.required">Interviewee phone number is required.</span>
                      </span>
                   </td>
                </tr>
                <tr>
-                  <td>Date </td>
-                  <td><input name = "lastname"  type = "text" ng-model = "lastName" required>
-                     <span style = "color:red" ng-show = "interviewForm.lastname.$dirty && interviewForm.lastname.$invalid">
-                        <span ng-show = "interviewForm.lastname.$error.required">Last Name is required.</span>
+                  <td>Interview Date </td>
+                  <td>
+                  <!-- <md-content ng-controller="AppCtrl as ctrl" layout-padding ng-cloak> -->
+                  <!-- <md-datepicker ng-model="ctrl.myDate" md-placeholder="Enter date"></md-datepicker> -->
+                  <input name = "interviewDate"  type = "text" ng-model = "interviewDate" required>
+                     <span style = "color:red" ng-show = "interviewForm.interviewDate.$dirty && interviewForm.interviewDate.$invalid">
+                        <span ng-show = "interviewForm.interviewDate.$error.required">Interview Date is required.</span>
                      </span>
+                  <!-- </md-content> -->
                   </td>
                </tr>
                <tr>
                   <td>Unique interview ID </td>
-                  <td><input name = "uniqueId"  ng-readonly="true" ng-model = "uniqueId" required>
-                  <button ng-click="generateID()">Generate ID</button>
+                  <td><input name = "uniqueId" class="unique"  ng-readonly="true" ng-model = "uniqueId" required>
+                  <button class="generate" ng-click="generateID()">Generate ID</button>
                      <span style = "color:red" ng-show = "interviewForm.uniqueId.$dirty && interviewForm.uniqueId.$invalid">
-                        <span ng-show = "interviewForm.uniqueId.$error.required">Last Name is required.</span>
+                        <span ng-show = "interviewForm.uniqueId.$error.required">Unique interview ID generation is required.</span>
                      </span>
                   </td>
                </tr>
                
                <tr>
-                  <td>
-                     <button ng-click = "reset()">Reset</button>
-                  </td>
-                  <td>
-                     <button ng-disabled = "interviewForm.firstname.$dirty &&
-                        interviewForm.firstname.$invalid || interviewForm.lastname.$dirty &&
-                        interviewForm.lastname.$invalid || interviewForm.email.$dirty &&
-                        interviewForm.email.$invalid" ng-click="submit()">Submit</button>
+                  
+                  <td colspan="2" class="separator">
+                     <button ng-disabled = "interviewForm.purposeDropdown.$dirty &&
+                        interviewForm.purposeDropdown.$invalid || interviewForm.cityDropdown.$dirty &&
+                        interviewForm.cityDropdown.$invalid || interviewForm.elsewhere.$dirty &&
+                        interviewForm.elsewhere.$invalid || interviewForm.address.$dirty &&
+                        interviewForm.address.$invalid || interviewForm.interviewer.$dirty &&
+                        interviewForm.interviewer.$invalid || interviewForm.interviewee.$dirty &&
+                        interviewForm.interviewee.$invalid || interviewForm.email.$dirty &&
+                        interviewForm.email.$invalid || interviewForm.phoneNumber.$dirty &&
+                        interviewForm.phoneNumber.$invalid || interviewForm.interviewDate.$dirty &&
+                        interviewForm.interviewDate.$invalid || interviewForm.uniqueId.$dirty &&
+                        interviewForm.uniqueId.$invalid" class="submit pull-right" ng-click="submit()">Submit</button>
                   </td>
                </tr>
           
@@ -149,12 +253,20 @@
     </table>
 
     </script>
-
-    <a href="#/">Home</a>
-    <a href="#/details">All Info</a>
-
-    <div ng-view></div>
-
+    <sidebar>
+      <div class="logo">RecordSure</div>
+      <nav>
+        <ul>
+          <li class="active"><a href="#/">Home</a></li>
+          <li><a href="#/details">All Info</a></li>
+        </ul>
+      </nav>
+      
+    </sidebar>
+    <section>
+      <div ng-view></div>
+    </section>
+    </div>
     <script src="app.js"></script>
   </body>
 </html>

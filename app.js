@@ -18,17 +18,18 @@ app.config(function($routeProvider) {
 
 app.controller('FormController', function($scope) {
   $scope.reset = function(){
-   $scope.firstName = "Mahesh";
-   $scope.lastName = "Parashar";
-   $scope.email = "MaheshParashar@tutorialspoint.com";
    $scope.city = ["London", "Brighton","Belfast", "Cardiff", "Newcastle", "Elswhere"];
    $scope.purpose = ["Visa", "Permanent residence"];
-   $scope.uniqueId = 0;
+   $scope.uniqueId = "";
+   $scope.possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
    $scope.generateID = function() {
-      $scope.uniqueId++;
+      $scope.uniqueId = "";
+      for ($scope.i = 0; $scope.i < 13; $scope.i++)
+        $scope.uniqueId += $scope.possible.charAt(Math.floor(Math.random() * $scope.possible.length));
+      $scope.uniqueId = "#"+$scope.uniqueId;
     };
 
-    $scope.saved = localStorage.getItem('allinfo');
+    /*$scope.saved = localStorage.getItem('allinfo');
     $scope.allinfo = (localStorage.getItem('allinfo')!==null) ? JSON.parse($scope.saved) : [ {text: 'Learn AngularJS', done: false}, {text: 'Build an Angular app', done: false} ];
     localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
 
@@ -57,7 +58,7 @@ app.controller('FormController', function($scope) {
           $scope.allinfo.push(todo);
       });
       localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
-    };
+    };*/
   }
   
   $scope.reset();
