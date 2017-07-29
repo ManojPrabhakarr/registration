@@ -16,8 +16,7 @@ app.config(function($routeProvider) {
   .otherwise({redirectTo: '/'});
 });
 
-app.controller('FormController', function($scope) {
-  $scope.reset = function(){
+app.controller('FormController', function($scope,$window) {
    $scope.city = ["London", "Brighton","Belfast", "Cardiff", "Newcastle", "Elswhere"];
    $scope.purpose = ["Visa", "Permanent residence"];
    $scope.uniqueId = "";
@@ -27,61 +26,52 @@ app.controller('FormController', function($scope) {
       for ($scope.i = 0; $scope.i < 13; $scope.i++)
         $scope.uniqueId += $scope.possible.charAt(Math.floor(Math.random() * $scope.possible.length));
       $scope.uniqueId = "#"+$scope.uniqueId;
+
     };
 
-    /*$scope.saved = localStorage.getItem('allinfo');
-    $scope.allinfo = (localStorage.getItem('allinfo')!==null) ? JSON.parse($scope.saved) : [ {text: 'Learn AngularJS', done: false}, {text: 'Build an Angular app', done: false} ];
-    localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
+    //$scope.saved = localStorage.getItem('allinfo');
+    
 
-    $scope.addTodo = function() {
+    $scope.saveRegDetails = function(validform) {
+      //console.log('hello coming');
+      if(validform) {
+      $scope.allinfo = [];
       $scope.allinfo.push({
-        text: $scope.todoText,
+        text1: $scope.purposeDropdown,
+        text2: $scope.cityDropdown,
+        text3: $scope.address,
+        text4: $scope.interviewer,
+        text5: $scope.interviewee,
+        text6: $scope.email,
+        text7: $scope.phoneNumber,
+        text8: $scope.interviewDate,
+        text9: $scope.uniqueId,
+        text10: $scope.elsewhere,
         done: false
       });
-      $scope.todoText = ''; //clear the input after adding
+      $scope.purposeDropdown = '';
+      $scope.cityDropdown = '';
+      $scope.address = '';
+      $scope.elsewhere = '';
+      $scope.interviewer = '';
+      $scope.interviewee = '';
+      $scope.email = '';
+      $scope.phoneNumber = '';
+      $scope.interviewDate = '';
+      $scope.uniqueId = ''; //clear the input after adding
       localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
+      alert('Data Saved successfully');
+      $window.location.href = '#/details';
+      } else {
+        console.log('invalid'); 
+      }
+     
     };
 
-    $scope.remaining = function() {
-      var count = 0;
-      angular.forEach($scope.allinfo, function(todo){
-        count+= todo.done ? 0 : 1;
-      });
-      return count;
-    };
-
-    $scope.archive = function() {
-      var olddetails = $scope.allinfo;
-      $scope.allinfo = [];
-      angular.forEach(olddetails, function(todo){
-        if (!todo.done)
-          $scope.allinfo.push(todo);
-      });
-      localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
-    };*/
-  }
-  
-  $scope.reset();
 });
   
 app.controller('DetailsController', function($scope) {
-    $scope.student = {
-       firstName: "Mahesh",
-       lastName: "Parashar",
-       fees:500,
-       
-       subjects:[
-          {name:'Physics',marks:70},
-          {name:'Chemistry',marks:80},
-          {name:'Math',marks:65},
-          {name:'English',marks:75},
-          {name:'Hindi',marks:67}
-       ],
-       
-       fullName: function() {
-          var studentObject;
-          studentObject = $scope.student;
-          return studentObject.firstName + " " + studentObject.lastName;
-       }
-    };
+    $scope.saved = localStorage.getItem('allinfo');
+    $scope.getAllinfo = (localStorage.getItem('allinfo')!==null) ? JSON.parse($scope.saved) : [{}];
+    localStorage.setItem('allinfo', JSON.stringify($scope.getAllinfo));
 });
