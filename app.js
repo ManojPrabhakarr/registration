@@ -35,7 +35,38 @@ app.controller('FormController', function($scope,$window) {
     $scope.saveRegDetails = function(validform) {
       //console.log('hello coming');
       if(validform) {
-      $scope.allinfo = [];
+        var existingEntries = JSON.parse(localStorage.getItem("allinfo"));
+        if(existingEntries == null) existingEntries = [];
+
+        if ($scope.purposeDropdown == "Visa") {
+          $scope.hiddenPurpose = "#eeecda";
+        }else{
+          $scope.hiddenPurpose = "rgba(194, 232, 194, 0.54)";
+        }
+
+        var entry = {
+        text1: $scope.purposeDropdown,
+        text2: $scope.cityDropdown,
+        text3: $scope.address,
+        text4: $scope.interviewer,
+        text5: $scope.interviewee,
+        text6: $scope.email,
+        text7: $scope.phoneNumber,
+        text8: $scope.interviewDate,
+        text9: $scope.uniqueId,
+        text10: $scope.elsewhere,
+        text11: $scope.hiddenPurpose,
+        done: false
+        };
+        localStorage.setItem("entry", JSON.stringify(entry));
+        /*var allinfo = [];
+        allinfo.push(entry);
+        localStorage.setItem("allinfo", JSON.stringify(allinfo));*/
+        // Save allEntries back to local storage
+        existingEntries.push(entry);
+        localStorage.setItem("allinfo", JSON.stringify(existingEntries));
+
+      /*$scope.allinfo = [];
       $scope.allinfo.push({
         text1: $scope.purposeDropdown,
         text2: $scope.cityDropdown,
@@ -48,7 +79,7 @@ app.controller('FormController', function($scope,$window) {
         text9: $scope.uniqueId,
         text10: $scope.elsewhere,
         done: false
-      });
+      });*/
       $scope.purposeDropdown = '';
       $scope.cityDropdown = '';
       $scope.address = '';
@@ -59,11 +90,12 @@ app.controller('FormController', function($scope,$window) {
       $scope.phoneNumber = '';
       $scope.interviewDate = '';
       $scope.uniqueId = ''; //clear the input after adding
-      localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
+      $scope.hiddenPurpose = '';
+      //localStorage.setItem('allinfo', JSON.stringify($scope.allinfo));
       alert('Data Saved successfully');
       $window.location.href = '#/details';
       } else {
-        console.log('invalid'); 
+        alert('Highlighted Fields are mandatory!!!'); 
       }
      
     };

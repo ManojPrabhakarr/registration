@@ -27,6 +27,7 @@
         border: 0px;
         padding: 10px 15px;
         color: #fefefe;
+        cursor: pointer;
       }
       .reset {
         background: #f0ad4e;
@@ -40,6 +41,10 @@
         width: 110px;
         cursor: pointer;
       }
+      a.generate {
+        padding: 10px 15px;
+        color: #fefefe;
+      }
       .separator {
         border-top: 1px solid #c3d1d6;
         margin: 15px 0;
@@ -50,12 +55,15 @@
         margin: 0;
         width: 100%;
       }
-      nav ul li {
-        padding: 20px 15px;
+      nav ul li {        
         border-bottom: 1px solid #aaa;
+        height: 60px;
       }
       nav ul li a {
+        padding: 20px 0px;
         font-size: 16px;
+        float: left;
+        width: 100%;
         color: #fefefe;
         font-weight: 200;
         text-decoration: none; 
@@ -96,10 +104,14 @@
           padding: 10px 5px 10px 5px;
           border-bottom: 1px solid #dadce4;
           font-size: 12px;
+          background: #454e7b;
+          color: white;
        }
        table.allDetails td {
           padding: 10px 5px 10px 5px;
           font-size: 12px;
+          border: auto;
+          border-bottom: 1px solid #dadce4;
        }
        .interviewHeading {
         font-size: 24px;
@@ -146,11 +158,16 @@
          <form name ="interviewForm" novalidate ng-class="{'submitted': submitted}" ng-submit="saveRegDetails(interviewForm.$valid)">
             <table border = "0">
                <tr>
-                  <td>Interview purpose</td>s
+                  <td>Interview purpose</td>
                   <td>
                   <select ng-model="purposeDropdown" name="purposeDropdown" ng-options="x for x in purpose" required>
                     <option value=''>-Select-</option>
                   </select>
+                  </td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td><input type="hidden" name = "hiddenPurpose" ng-model = "hiddenPurpose" value="{{purposeDropdown}}">
                   </td>
                </tr>
                
@@ -165,7 +182,7 @@
                </tr>
                <tr>
                   <td ng-show="cityDropdown=='Elswhere'">Other Location </td>
-                  <td><input name = "elsewhere" ng-show="cityDropdown=='Elswhere'" ng-model = "elsewhere" required>
+                  <td><input name = "elsewhere" ng-show="cityDropdown=='Elswhere'" ng-model = "elsewhere" ng-required="cityDropdown=='Elswhere'">
                   </td>
                </tr>
                <tr>
@@ -197,7 +214,7 @@
                <tr>
                   <td>Interview Date </td>
                   <td>
-                  <input name = "interviewDate"  type = "text" ng-model = "interviewDate" required>
+                  <input name = "interviewDate" type = "date" ng-model = "interviewDate" required>
                   </td>
                </tr>
                <tr>
@@ -234,7 +251,7 @@
         <th>Interviewee phone number</th>
         <th>Interview Date</th>
       </tr>
-      <tr ng-repeat = "alldetails in getAllinfo">
+      <tr ng-repeat = "alldetails in getAllinfo" style="background: {{alldetails.text11}}">
         <td>{{ alldetails.text9 }}</td>
         <td>{{ alldetails.text1 }}</td>
         <td>{{ alldetails.text2 }}</td>
@@ -252,7 +269,7 @@
     <sidebar>
       <div class="logo">RecordSure</div>
       <nav>
-        <ul>
+        <ul onclick="myFunction(event)">
           <li class="active"><a href="#/">Home</a></li>
           <li><a href="#/details">All Info</a></li>
         </ul>
@@ -263,6 +280,15 @@
       <div ng-view></div>
     </section>
     </div>
-    <script src="app.js"></script>
+    <script src="app.js"></script>  
+    <script>
+    function myFunction(e) {
+  var elems = document.querySelector(".active");
+  if(elems !==null){
+   elems.classList.remove("active");
+  }
+ e.target.className = "active";
+}
+</script>
   </body>
 </html>
